@@ -1,35 +1,61 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-
-import './App.css';
-import {Layout,Header,Navigation,Drawer,Content}  from 'react-mdl';
 import { Portfolio } from './Portfolio/Portfolio';
 
+import { about } from './../constants/About';
+import { skills } from './../constants/Skills';
+import { projects } from './../constants/Projects';
+import './App.css';
 
-class App extends Component{
-        constructor(){
-            super();
-            this.state={
-                selectedSection:""
-            };
-        }
+class App extends Component {
+	constructor () {
+		super();
 
-    handleSectionClick = (sectionName) => {
-     alert(sectionName); 
-    } 
+		this.state = {
+			selectedSection: "",
+			selectedHeading: "",
+			selectedQuote: "",
+			about: null,
+			skills: null,
+			projects: null,
+		};
+	}
 
+	componentWillMount () {
+		this.setState ({ 
+			about,
+			skills,
+			projects,
+			selectedHeading: about.heading,
+			selectedQuote: about.quote,
+			selectedSection: "about" 
+		});
+	}
 
-  render(){
-  
-  return (
+	handleSectionClick =  (section) => {
+		this.setState({
+			selectedSection: section,
+			selectedHeading: this.state[section].heading,
+			selectedQuote: this.state[section].quote
+		})
+	}
 
-                
-<div className="App">
-<Portfolio 
-handleSectionClick={this.handleSectionClick}/>
-</div>
-
-  );
+	render () {
+		return (
+			<div className="App">
+				<Portfolio
+					
+					selectedSection={this.state.selectedSection}
+					selectedHeading={this.state.selectedHeading}
+					selectedQuote={this.state.selectedQuote}
+					about={this.state.about}
+					skills={this.state.skills}
+					projects={this.state.projects}
+					handleSectionClick={this.handleSectionClick}
+				/>
+			</div>
+		);
+	}
 }
-}
+
 export default App;
